@@ -23,7 +23,7 @@ public class RecipeItemMeasurementTest {
 
 
     public WebTestClient.ResponseSpec generateRecipeItemMeasurement() {
-                RecipeItemMeasurement recipeItemMeasurement = RecipeItemMeasurement.CreateRecipeItemMeasurement("test",1,
+        RecipeItemMeasurement recipeItemMeasurement = RecipeItemMeasurement.CreateRecipeItemMeasurement("test", 1,
                 "litre", "ltr");
 
         RegisterRecipeItemMeasurementRequest recipeItemMeasurementRequest = new RegisterRecipeItemMeasurementRequest(recipeItemMeasurement.getName(),

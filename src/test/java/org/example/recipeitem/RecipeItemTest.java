@@ -2,7 +2,6 @@ package org.example.recipeitem;
 
 import org.example.item.*;
 import org.example.item.itemid.ItemId;
-import org.example.recipe.Recipe;
 import org.example.recipeitem.measurement.RecipeItemMeasurement;
 import org.example.recipeitem.measurement.recipeitemmeasurementid.RecipeItemMeasurementId;
 import org.example.recipeitem.recipeitemmeasurement.RecipeItemMeasurementApi;

@@ -13,7 +13,7 @@ import java.util.UUID;
 @Component
 public class RecipeItemApi {
     private static final String RECIPEITEM_PATH = "/recipeitems";
-    @Value(value="${local.server.port}")
+    @Value(value = "${local.server.port}")
     private int port;
 
     public URI uriForRecipeItem(UUID id) {
