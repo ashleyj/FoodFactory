@@ -27,7 +27,7 @@ public class RecipeItemController {
         if (item == null) {
             return ResponseEntity.badRequest().build();
         }
-        RecipeItem recipeItem = RecipeItem.create(recipeItemRequest.getItemId());
+        RecipeItem recipeItem = RecipeItem.create(recipeItemRequest.getItemId(), recipeItemRequest.count, recipeItemRequest.recipeItemMeasurementId);
         recipeItemRepository.save(recipeItem);
         URI newRecipeItemLocation = itemUri(recipeItem.getItemId().id);
         return ResponseEntity.created(newRecipeItemLocation).body(recipeItem);
