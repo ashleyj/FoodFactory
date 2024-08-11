@@ -2,6 +2,8 @@ package org.example.recipeitem;
 
 import org.example.item.Item;
 import org.example.item.ItemRepository;
+import org.example.recipeitem.measurement.RecipeItemMeasurement;
+import org.example.recipeitem.measurement.RecipeItemMeasurementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,16 +22,23 @@ public class RecipeItemController {
 
     @Autowired
     ItemRepository itemRepository;
+    @Autowired
+    private RecipeItemMeasurementRepository recipeItemMeasurementRepository;
 
     @PostMapping("/recipeitems")
-    public ResponseEntity<RecipeItem> registerNewRecipeItem(@RequestBody RecipeItem recipeItemRequest) {
-        Item item = itemRepository.findByItemIdId(recipeItemRequest.itemId.getId());
+    public ResponseEntity<RecipeItem> registerNewRecipeItem(@RequestBody RegisterRecipeItemRequest recipeItemRequest) {
+        Item item = itemRepository.findByItemIdId(recipeItemRequest.getItemId().getId());
+        RecipeItemMeasurement recipeItemMeasurement = recipeItemMeasurementRepository.findByRecipeItemMeasurementIdId(recipeItemRequest.getRecipeItemMeasurementId().getId());
+
         if (item == null) {
             return ResponseEntity.badRequest().build();
         }
-        RecipeItem recipeItem = RecipeItem.create(recipeItemRequest.getItemId(), recipeItemRequest.count, recipeItemRequest.recipeItemMeasurementId);
+        if (recipeItemMeasurement == null) {
+            return ResponseEntity.badRequest().build();
+        }
+        RecipeItem recipeItem = RecipeItem.create(item.itemId, recipeItemRequest.count, recipeItemMeasurement.getRecipeItemMeasurementId());
         recipeItemRepository.save(recipeItem);
-        URI newRecipeItemLocation = itemUri(recipeItem.getItemId().getId());
+        URI newRecipeItemLocation = itemUri(recipeItem.getRecipeItemId().getId());
         return ResponseEntity.created(newRecipeItemLocation).body(recipeItem);
     }
 

@@ -7,6 +7,8 @@ import lombok.Setter;
 import org.example.item.itemid.ItemId;
 import org.example.recipeitem.measurement.recipeitemmeasurementid.RecipeItemMeasurementId;
 
+import java.util.UUID;
+
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegisterRecipeItemRequest {

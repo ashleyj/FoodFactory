@@ -17,7 +17,7 @@ public class ItemResponse {
 
     @Getter
     @Setter
-    public String name;
+    public String itemName;
 
     public UUID getId() {
         return this.itemId.getId();

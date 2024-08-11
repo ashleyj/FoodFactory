@@ -14,14 +14,15 @@ import java.util.UUID;
 @Entity
 public class Item {
 
-    @Setter(AccessLevel.PRIVATE)
+    @Setter
+    @Getter
     @EmbeddedId
     @AttributeOverride(name = "id", column = @Column(name = "item_id"))
     public ItemId itemId;
 
     @Getter
     @Setter(AccessLevel.PRIVATE)
-    public String name;
+    public String itemName;
 
     public UUID getId() {
         return itemId.getId();

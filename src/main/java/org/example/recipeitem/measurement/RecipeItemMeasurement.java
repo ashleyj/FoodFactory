@@ -16,7 +16,7 @@ public class RecipeItemMeasurement {
     @Setter(AccessLevel.PRIVATE)
     @EmbeddedId
     @Column(name = "recipe_item_measurement_id", nullable = false)
-    private RecipeItemMeasurementId recipeItemMeasurementId;
+    public RecipeItemMeasurementId recipeItemMeasurementId;
 
     @Getter
     @Setter(AccessLevel.PRIVATE)

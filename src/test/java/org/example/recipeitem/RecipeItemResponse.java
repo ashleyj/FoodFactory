@@ -4,6 +4,8 @@ import lombok.*;
 import org.example.item.itemid.ItemId;
 import org.example.recipeitem.recipeitemid.RecipeItemId;
 
+import java.util.UUID;
+
 @AllArgsConstructor
 @NoArgsConstructor
 public class RecipeItemResponse {

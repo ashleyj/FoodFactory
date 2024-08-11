@@ -23,7 +23,7 @@ public class RecipeItemMeasurementTest {
 
 
     public WebTestClient.ResponseSpec generateRecipeItemMeasurement() {
-        RecipeItemMeasurement recipeItemMeasurement = RecipeItemMeasurement.CreateRecipeItemMeasurement("test", 1,
+        RecipeItemMeasurement recipeItemMeasurement = RecipeItemMeasurement.CreateRecipeItemMeasurement("test2", 1,
                 "litre", "ltr");
 
         RegisterRecipeItemMeasurementRequest recipeItemMeasurementRequest = new RegisterRecipeItemMeasurementRequest(recipeItemMeasurement.getName(),
@@ -59,13 +59,13 @@ public class RecipeItemMeasurementTest {
 
 
     private void itShouldAllocateAnId(RecipeItemMeasurementResponse response) {
-        assertThat(response.recipeItemMeasurementId.id).isNotEqualTo(new UUID(0, 0));
-        assertThat(response.recipeItemMeasurementId.id).isNotNull();
+        assertThat(response.recipeItemMeasurementId.getId()).isNotEqualTo(new UUID(0, 0));
+        assertThat(response.recipeItemMeasurementId.getId()).isNotNull();
     }
 
     private void itShouldKnowWhereToLocateRecipeMeasurement(WebTestClient.ResponseSpec response, RecipeItemMeasurementResponse recipeItemMeasurementResponse) {
         response.expectHeader()
-                .location(recipeItemMeasurementApi.uriForRecipeItemMeasurement(recipeItemMeasurementResponse.getRecipeItemMeasurementId().id).toString());
+                .location(recipeItemMeasurementApi.uriForRecipeItemMeasurement(recipeItemMeasurementResponse.getRecipeItemMeasurementId().getId()).toString());
     }
 
 

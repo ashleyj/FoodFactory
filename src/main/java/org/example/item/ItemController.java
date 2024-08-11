@@ -17,7 +17,7 @@ public class ItemController {
 
     @PostMapping("/items")
     public ResponseEntity<Item> registerNewItem(@RequestBody Item itemRequest) {
-        Item item = Item.craeteItem(itemRequest.getName());
+        Item item = Item.craeteItem(itemRequest.getItemName());
         itemRepository.save(item);
         URI newItemLocation = itemUri(item.getId());
         return ResponseEntity.created(newItemLocation).body(item);
