@@ -13,9 +13,9 @@ public class RecipeItemMeasurementResponse {
 
     @Getter
     @Setter
-    RecipeItemMeasurementId recipeItemMeasurementId;
+    public RecipeItemMeasurementId recipeItemMeasurementId;
 
     @Getter
     @Setter
-    String name;
+    public String name;
 }

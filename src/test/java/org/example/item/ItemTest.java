@@ -28,7 +28,7 @@ public class ItemTest {
 
     private void itShouldShowWhereToLocateItem(WebTestClient.ResponseSpec response, ItemResponse itemResponse) {
         response.expectHeader()
-                .location(itemApi.uriForItemId(itemResponse.itemId.id).toString());
+                .location(itemApi.uriForItemId(itemResponse.itemId.getId()).toString());
     }
 
     private void itShouldAllocateAnId(ItemResponse itemResponse) {

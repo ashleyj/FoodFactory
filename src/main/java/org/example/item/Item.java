@@ -17,14 +17,14 @@ public class Item {
     @Setter(AccessLevel.PRIVATE)
     @EmbeddedId
     @AttributeOverride(name = "id", column = @Column(name = "item_id"))
-    protected ItemId itemId;
+    public ItemId itemId;
 
     @Getter
     @Setter(AccessLevel.PRIVATE)
     public String name;
 
     public UUID getId() {
-        return itemId.id;
+        return itemId.getId();
     }
 
     public static Item craeteItem(String name) {

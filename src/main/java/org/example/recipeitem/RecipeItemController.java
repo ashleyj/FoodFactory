@@ -23,13 +23,13 @@ public class RecipeItemController {
 
     @PostMapping("/recipeitems")
     public ResponseEntity<RecipeItem> registerNewRecipeItem(@RequestBody RecipeItem recipeItemRequest) {
-        Item item = itemRepository.findByItemIdId(recipeItemRequest.itemId.id);
+        Item item = itemRepository.findByItemIdId(recipeItemRequest.itemId.getId());
         if (item == null) {
             return ResponseEntity.badRequest().build();
         }
         RecipeItem recipeItem = RecipeItem.create(recipeItemRequest.getItemId(), recipeItemRequest.count, recipeItemRequest.recipeItemMeasurementId);
         recipeItemRepository.save(recipeItem);
-        URI newRecipeItemLocation = itemUri(recipeItem.getItemId().id);
+        URI newRecipeItemLocation = itemUri(recipeItem.getItemId().getId());
         return ResponseEntity.created(newRecipeItemLocation).body(recipeItem);
     }
 
