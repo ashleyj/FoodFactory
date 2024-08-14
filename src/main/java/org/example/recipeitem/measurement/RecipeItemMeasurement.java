@@ -1,5 +1,6 @@
 package org.example.recipeitem.measurement;
 
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -13,9 +14,8 @@ import org.example.recipeitem.measurement.recipeitemmeasurementid.RecipeItemMeas
 public class RecipeItemMeasurement {
 
     @Getter
-    @Setter(AccessLevel.PRIVATE)
+    @Setter
     @EmbeddedId
-    @Column(name = "recipe_item_measurement_id", nullable = false)
     public RecipeItemMeasurementId recipeItemMeasurementId;
 
     @Getter

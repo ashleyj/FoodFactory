@@ -59,13 +59,13 @@ public class RecipeItemMeasurementTest {
 
 
     private void itShouldAllocateAnId(RecipeItemMeasurementResponse response) {
-        assertThat(response.recipeItemMeasurementId.getId()).isNotEqualTo(new UUID(0, 0));
-        assertThat(response.recipeItemMeasurementId.getId()).isNotNull();
+        assertThat(response.recipeItemMeasurementId.getRecipe_item_measurement_d()).isNotEqualTo(new UUID(0, 0));
+        assertThat(response.recipeItemMeasurementId.getRecipe_item_measurement_d()).isNotNull();
     }
 
     private void itShouldKnowWhereToLocateRecipeMeasurement(WebTestClient.ResponseSpec response, RecipeItemMeasurementResponse recipeItemMeasurementResponse) {
         response.expectHeader()
-                .location(recipeItemMeasurementApi.uriForRecipeItemMeasurement(recipeItemMeasurementResponse.getRecipeItemMeasurementId().getId()).toString());
+                .location(recipeItemMeasurementApi.uriForRecipeItemMeasurement(recipeItemMeasurementResponse.getRecipeItemMeasurementId().getRecipe_item_measurement_d()).toString());
     }
 
 

@@ -1,5 +1,6 @@
 package org.example.item;
 
+import org.example.item.itemid.ItemId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +26,8 @@ public class ItemController {
 
     @GetMapping("/items/{id}")
     public ResponseEntity<Item> getExistingItem(@PathVariable UUID id) {
-        Item item = itemRepository.findByItemIdId(id);
-        return ResponseEntity.of(Optional.of(item));
+        Optional<Item> item = itemRepository.findById(new ItemId(id));
+        return ResponseEntity.of(item);
     }
 
     URI itemUri(UUID id) {

@@ -9,5 +9,6 @@ import java.util.UUID;
 @Repository
 public interface ItemRepository extends CrudRepository<Item, ItemId> {
 
-    Item findByItemIdId(UUID id);
+    //Item findByItemId_Id(UUID itemId_id);
+
 }

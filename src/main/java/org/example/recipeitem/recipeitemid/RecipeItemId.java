@@ -13,7 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class RecipeItemId implements Serializable {
     @Getter
-    protected UUID id;
+    public UUID id;
 
     public static RecipeItemId generateId() {
         return new RecipeItemId(UUID.randomUUID());

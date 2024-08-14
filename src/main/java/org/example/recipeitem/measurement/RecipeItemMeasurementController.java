@@ -11,7 +11,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -35,7 +34,7 @@ public class RecipeItemMeasurementController {
                 recipeItemMeasurementRequest.getAbbreviatedMeasurementName());
         recipeItemMeasurementRepository.save(recipeItemMeasurement);
 
-        URI newRecipeItemMeasurementLocation = recipeIteamMeasurementUri(recipeItemMeasurement.getRecipeItemMeasurementId().getId());
+        URI newRecipeItemMeasurementLocation = recipeIteamMeasurementUri(recipeItemMeasurement.getRecipeItemMeasurementId().getRecipe_item_measurement_d());
         return ResponseEntity.created(newRecipeItemMeasurementLocation).body(recipeItemMeasurement);
     }
 

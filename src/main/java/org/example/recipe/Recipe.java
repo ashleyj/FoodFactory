@@ -1,5 +1,7 @@
 package org.example.recipe;
 
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
@@ -16,6 +18,7 @@ public class Recipe {
     @Getter
     @Setter(AccessLevel.PRIVATE)
     @EmbeddedId
+    @AttributeOverride(name = "id", column = @Column(name = "recipe_id"))
     public RecipeId recipeId;
 
     @Getter

@@ -1,5 +1,7 @@
 package org.example.recipeitem.measurement.recipeitemmeasurementid;
 
+import jakarta.persistence.AttributeOverride;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +16,7 @@ import java.util.UUID;
 public class RecipeItemMeasurementId {
     @Getter
     @Setter
-    public UUID id;
+    public UUID recipe_item_measurement_d;
 
     public static RecipeItemMeasurementId generateId() {
         return new RecipeItemMeasurementId(UUID.randomUUID());

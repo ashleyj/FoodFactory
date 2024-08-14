@@ -15,7 +15,7 @@ public class RegisterRecipeItemRequest {
 
     @Getter
     @Setter
-    ItemId itemId;
+    UUID itemId;
 
     @Getter
     @Setter
@@ -23,5 +23,5 @@ public class RegisterRecipeItemRequest {
 
     @Getter
     @Setter
-    RecipeItemMeasurementId recipeItemMeasurementId;
+    UUID recipeItemMeasurementId;
 }

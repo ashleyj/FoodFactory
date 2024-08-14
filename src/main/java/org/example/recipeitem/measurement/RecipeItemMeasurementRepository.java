@@ -11,5 +11,4 @@ import java.util.UUID;
 public interface RecipeItemMeasurementRepository extends CrudRepository<RecipeItemMeasurement, RecipeItemMeasurementId> {
 
     List<RecipeItemMeasurement> findByName(String name);
-    RecipeItemMeasurement findByRecipeItemMeasurementIdId(UUID id);
 }
