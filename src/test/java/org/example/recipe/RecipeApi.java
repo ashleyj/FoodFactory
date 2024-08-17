@@ -39,10 +39,18 @@ public class RecipeApi {
                 .getResponseBody();
     }
 
-    public RecipeResponse getItemFromResponse(WebTestClient.ResponseSpec response) {
+    public RecipeResponse getRecipeFromResponse(WebTestClient.ResponseSpec response) {
         return response
                 .expectBody(RecipeResponse.class)
                 .returnResult()
                 .getResponseBody();
+    }
+
+    public WebTestClient.ResponseSpec addStepToRecipe(AddStepToRecipeRequest stepRequest) {
+         return Helper.newWebClient(port)
+                .post()
+                .uri(RECIPE_PATH + "/" + stepRequest.getRecipeId() + "/steps")
+                .bodyValue(stepRequest)
+                .exchange();
     }
 }

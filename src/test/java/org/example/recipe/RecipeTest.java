@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.MockMvc;
@@ -17,14 +18,13 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.example.recipe.RecipeApi.RECIPE_PATH;
-import static org.hamcrest.Matchers.equalToIgnoringCase;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class RecipeTest {
     @Autowired
@@ -41,9 +41,26 @@ public class RecipeTest {
         RegisterRecipeRequest recipeRequest = new RegisterRecipeRequest("new-recipe", "A new recipe", "a really tasty recipe");
         WebTestClient.ResponseSpec response = recipeApi.registerItem(recipeRequest);
         itShouldRegisterNewRecipe(response);
-        RecipeResponse newRecipe = recipeApi.getItemFromResponse(response);
+        RecipeResponse newRecipe = recipeApi.getRecipeFromResponse(response);
         itShouldAllocateAnId(newRecipe);
         itShouldShowWhereToLocateRecipe(response, newRecipe);
+    }
+
+
+    @Test
+    public void givenARecipe_whenStepsAdded() {
+        RegisterRecipeRequest recipeRequest = new RegisterRecipeRequest("new-recipe", "A new recipe", "a really tasty recipe");
+        WebTestClient.ResponseSpec response = recipeApi.registerItem(recipeRequest);
+        RecipeResponse newRecipe = recipeApi.getRecipeFromResponse(response);
+        AddStepToRecipeRequest stepRequest = new AddStepToRecipeRequest(newRecipe.recipeId.id, "new step");
+        response = recipeApi.addStepToRecipe(stepRequest);
+        newRecipe = recipeApi.getRecipeFromResponse(response);
+        itShouldReturnRecipeWithStep(newRecipe);
+    }
+
+    private void itShouldReturnRecipeWithStep(RecipeResponse newRecipe) {
+        assertThat((long) newRecipe.getSteps().size()).isEqualTo(1);
+        assertThat(newRecipe.getSteps().getFirst().getStepText()).isEqualTo("new step");
     }
 
     private void itShouldAllocateAnId(RecipeResponse recipeResponse) {

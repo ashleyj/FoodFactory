@@ -1,17 +1,17 @@
 package org.example.recipe;
 
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.example.recipe.recipeid.RecipeId;
+import org.example.recipe.step.Step;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Entity
 public class Recipe {
 
@@ -36,6 +36,18 @@ public class Recipe {
     @NotBlank(message = "Description is required")
     public String description;
 
+    @ElementCollection
+    @OneToMany
+    @Getter
+    @Setter(AccessLevel.PRIVATE)
+    private List<Step> steps;
+
+    public Recipe(RecipeId recipeId, String name, String title, String description) {
+        this.recipeId = recipeId;
+        this.name = name;
+        this.title = title;
+        this.description = description;
+    }
 
     public UUID getId() {
         return recipeId.id;
@@ -43,5 +55,11 @@ public class Recipe {
 
     public static Recipe createRecipe(String name, String title, String description) {
         return new Recipe(RecipeId.generateId(), name, title, description);
+    }
+
+    public Recipe addStep(Step step) {
+        if (steps == null) { steps = new ArrayList<>(); }
+        steps.add(step);
+        return this;
     }
 }

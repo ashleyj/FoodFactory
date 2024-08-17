@@ -20,4 +20,8 @@ public class ItemId  implements Serializable {
     public static ItemId generateId() {
         return new ItemId(UUID.randomUUID());
     }
+
+    public UUID getId() {
+        return item_id;
+    }
 }
