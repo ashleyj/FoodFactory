@@ -64,8 +64,8 @@ public class RecipeItemTest {
     }
 
     private void itShouldAllocateAnId(RecipeItemResponse response) {
-        assertThat(response.recipeItemId.getId()).isNotEqualTo(new UUID(0, 0));
-        assertThat(response.recipeItemId.getId()).isNotNull();
+        assertThat(response.getRecipeItemId().getId()).isNotEqualTo(new UUID(0, 0));
+        assertThat(response.getRecipeItemId().getId()).isNotNull();
     }
 
     private void itShouldRegisterNewItem(WebTestClient.ResponseSpec response) {
