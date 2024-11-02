@@ -14,10 +14,10 @@ public class AddStepToRecipeRequest {
 
     @Getter
     @Setter
-    private UUID recipeId;
+    public UUID recipeId;
 
     @Getter
     @Setter
-    private List<String> steps;
+    public List<String> steps;
 
 }

@@ -55,15 +55,16 @@ public class RecipeTest {
         RegisterRecipeRequest recipeRequest = new RegisterRecipeRequest("new-recipe", "A new recipe", "a really tasty recipe");
         WebTestClient.ResponseSpec response = recipeApi.registerItem(recipeRequest);
         RecipeResponse newRecipe = recipeApi.getRecipeFromResponse(response);
-        AddStepToRecipeRequest stepRequest = new AddStepToRecipeRequest(newRecipe.recipeId.id, Lists.newArrayList("step text"));
+        AddStepToRecipeRequest stepRequest = new AddStepToRecipeRequest(newRecipe.getRecipeId().id, Lists.newArrayList("step text"));
         response = recipeApi.addStepToRecipe(stepRequest);
-        newRecipe = recipeApi.getRecipeFromResponse(response);
-        itShouldReturnRecipeWithSteps(newRecipe);
+        RecipeResponse recipeWithSteps = recipeApi.getRecipeFromResponse(response);
+        itShouldReturnRecipeWithSteps(recipeWithSteps);
     }
 
-    private void itShouldReturnRecipeWithSteps(RecipeResponse newRecipe) {
-        assertThat((long) newRecipe.getSteps().size()).isEqualTo(1);
-        assertThat(newRecipe.getSteps().getFirst().getStepText()).isEqualTo("new step");
+    private void itShouldReturnRecipeWithSteps(RecipeResponse recipeResponse) {
+        assertThat(recipeResponse.getRecipeId().id).isNotEqualTo(new UUID(0, 0));
+        assertThat((long) recipeResponse.getSteps().size()).isEqualTo(1);
+        assertThat(recipeResponse.getSteps().getFirst().getStepText()).isEqualTo("step text");
     }
 
     private void itShouldAllocateAnId(RecipeResponse recipeResponse) {

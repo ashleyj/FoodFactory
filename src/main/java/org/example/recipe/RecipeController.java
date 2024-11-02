@@ -4,9 +4,12 @@ import jakarta.validation.Valid;
 import org.example.recipe.step.Step;
 import org.example.recipe.step.StepRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -33,21 +36,17 @@ public class RecipeController {
 
     @PostMapping(path = "/recipes/{recipeId}/steps")
     @Transactional
-    public ResponseEntity<Recipe> addStepToRecipe(@PathVariable UUID recipeId, @Valid @RequestBody List<String> steps) {
-        List<Step> s = new ArrayList<>();
-        steps.forEach(stepString -> s.add(Step.createStep(stepString)));
-
-        if (s.isEmpty()) {
+    public ResponseEntity<Recipe> addStepToRecipe(@PathVariable UUID recipeId, @Valid @RequestBody AddStepToRecipeRequest request) {
+        List<String> steps = request.getSteps();
+        if (steps.isEmpty()) {
             System.out.println("Empty step set");
-            return ResponseEntity.badRequest().build();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Empty step set");
         }
         Recipe recipe = recipeRepository.findByRecipeIdId(recipeId);
         if (recipe == null) {
-            return ResponseEntity.badRequest().build();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Recipe not found");
         }
-        stepRepository.saveAll(s);
-
-        recipe.addSteps(s);
+        recipe.addSteps(steps);
         recipeRepository.save(recipe);
         URI itemLocation = recipeUri(recipe.getId());
         return ResponseEntity.created(itemLocation).body(recipe);

@@ -35,7 +35,8 @@ public class Recipe {
     @NotBlank(message = "Description is required")
     public String description;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "recipe_id")
     @Getter
     @Setter(AccessLevel.PRIVATE)
     private List<Step> steps;
@@ -55,9 +56,8 @@ public class Recipe {
         return new Recipe(RecipeId.generateId(), name, title, description);
     }
 
-    public Recipe addSteps(List<Step> s) {
+    public void addSteps(List<String> s) {
         this.steps = new ArrayList<>();
-        this.steps.addAll(s);
-        return this;
+        s.forEach(stepText -> this.steps.add(Step.createStep(stepText, this)));
     }
 }
