@@ -3,6 +3,7 @@ package org.example.recipeitem;
 import org.example.item.Item;
 import org.example.item.ItemRepository;
 import org.example.item.itemid.ItemId;
+import org.example.recipeitem.dto.RegisterRecipeItemRequest;
 import org.example.recipeitem.measurement.RecipeItemMeasurement;
 import org.example.recipeitem.measurement.RecipeItemMeasurementRepository;
 import org.example.recipeitem.measurement.recipeitemmeasurementid.RecipeItemMeasurementId;

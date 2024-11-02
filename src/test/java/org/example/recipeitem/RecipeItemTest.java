@@ -1,12 +1,16 @@
 package org.example.recipeitem;
 
 import org.example.item.*;
+import org.example.item.dto.ItemResponse;
+import org.example.item.dto.RegisterItemRequest;
 import org.example.item.itemid.ItemId;
+import org.example.recipeitem.dto.RecipeItemResponse;
+import org.example.recipeitem.dto.RegisterRecipeItemRequest;
 import org.example.recipeitem.measurement.RecipeItemMeasurement;
+import org.example.recipeitem.measurement.dto.RecipeItemMeasurementResponse;
+import org.example.recipeitem.measurement.dto.RegisterRecipeItemMeasurementRequest;
 import org.example.recipeitem.measurement.recipeitemmeasurementid.RecipeItemMeasurementId;
 import org.example.recipeitem.recipeitemmeasurement.RecipeItemMeasurementApi;
-import org.example.recipeitem.recipeitemmeasurement.RecipeItemMeasurementResponse;
-import org.example.recipeitem.recipeitemmeasurement.RegisterRecipeItemMeasurementRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

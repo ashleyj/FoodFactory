@@ -1,5 +1,7 @@
 package org.example.item;
 
+import org.example.item.dto.ItemResponse;
+import org.example.item.dto.RegisterItemRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,11 +1,9 @@
-package org.example.recipeitem;
+package org.example.recipeitem.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.item.itemid.ItemId;
-import org.example.recipeitem.measurement.recipeitemmeasurementid.RecipeItemMeasurementId;
 
 import java.util.UUID;
 

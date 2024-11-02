@@ -7,7 +7,6 @@ import org.example.recipe.recipeid.RecipeId;
 import org.example.recipe.step.Step;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,7 +35,6 @@ public class Recipe {
     @NotBlank(message = "Description is required")
     public String description;
 
-    @ElementCollection
     @OneToMany
     @Getter
     @Setter(AccessLevel.PRIVATE)
@@ -57,9 +55,9 @@ public class Recipe {
         return new Recipe(RecipeId.generateId(), name, title, description);
     }
 
-    public Recipe addStep(Step step) {
-        if (steps == null) { steps = new ArrayList<>(); }
-        steps.add(step);
+    public Recipe addSteps(List<Step> s) {
+        this.steps = new ArrayList<>();
+        this.steps.addAll(s);
         return this;
     }
 }

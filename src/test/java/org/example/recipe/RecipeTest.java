@@ -2,7 +2,10 @@ package org.example.recipe;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.assertj.core.util.Lists;
 import org.example.ConstraintViolationHandler;
+import org.example.recipe.dto.RecipeResponse;
+import org.example.recipe.dto.RegisterRecipeRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,13 +55,13 @@ public class RecipeTest {
         RegisterRecipeRequest recipeRequest = new RegisterRecipeRequest("new-recipe", "A new recipe", "a really tasty recipe");
         WebTestClient.ResponseSpec response = recipeApi.registerItem(recipeRequest);
         RecipeResponse newRecipe = recipeApi.getRecipeFromResponse(response);
-        AddStepToRecipeRequest stepRequest = new AddStepToRecipeRequest(newRecipe.recipeId.id, "new step");
+        AddStepToRecipeRequest stepRequest = new AddStepToRecipeRequest(newRecipe.recipeId.id, Lists.newArrayList("step text"));
         response = recipeApi.addStepToRecipe(stepRequest);
         newRecipe = recipeApi.getRecipeFromResponse(response);
-        itShouldReturnRecipeWithStep(newRecipe);
+        itShouldReturnRecipeWithSteps(newRecipe);
     }
 
-    private void itShouldReturnRecipeWithStep(RecipeResponse newRecipe) {
+    private void itShouldReturnRecipeWithSteps(RecipeResponse newRecipe) {
         assertThat((long) newRecipe.getSteps().size()).isEqualTo(1);
         assertThat(newRecipe.getSteps().getFirst().getStepText()).isEqualTo("new step");
     }

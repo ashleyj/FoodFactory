@@ -1,23 +1,23 @@
-package org.example.recipe;
+package org.example.recipe.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.recipe.step.Step;
-
-import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddStepToRecipeRequest {
+public class RegisterRecipeRequest {
 
     @Getter
     @Setter
-    private UUID recipeId;
+    String name;
 
     @Getter
     @Setter
-    private String stepText;
+    String title;
 
+    @Getter
+    @Setter
+    String description;
 }

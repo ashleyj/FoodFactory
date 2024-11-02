@@ -1,4 +1,4 @@
-package org.example.recipeitem.recipeitemmeasurement;
+package org.example.recipeitem.measurement.dto;
 
 import lombok.*;
 import org.example.recipeitem.measurement.recipeitemmeasurementid.RecipeItemMeasurementId;

@@ -1,6 +1,8 @@
 package org.example.recipeitem;
 
 import org.example.Helper;
+import org.example.recipeitem.dto.RecipeItemResponse;
+import org.example.recipeitem.dto.RegisterRecipeItemRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;

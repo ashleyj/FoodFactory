@@ -1,4 +1,4 @@
-package org.example.recipeitem.recipeitemmeasurement;
+package org.example.recipeitem.measurement.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

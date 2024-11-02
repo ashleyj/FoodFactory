@@ -4,24 +4,20 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.example.recipe.recipeid.RecipeId;
-import org.example.recipe.step.Step;
 
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class RecipeResponse {
+public class AddStepToRecipeRequest {
 
     @Getter
     @Setter
-    public RecipeId recipeId;
+    private UUID recipeId;
 
     @Getter
     @Setter
-    public String name;
+    private List<String> steps;
 
-    @Getter
-    @Setter
-    public List<Step> steps;
 }
