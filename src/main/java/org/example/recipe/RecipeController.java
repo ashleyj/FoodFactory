@@ -1,11 +1,9 @@
 package org.example.recipe;
 
 import jakarta.validation.Valid;
-import org.example.recipe.step.Step;
 import org.example.recipe.step.StepRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,6 +31,10 @@ public class RecipeController {
         return ResponseEntity.created(newItemLocation).body(recipe);
     }
 
+    @GetMapping("/recipes")
+    public ResponseEntity<Iterable<Recipe>> getRecipes() {
+        return ResponseEntity.ok().body(recipeRepository.findAll());
+    }
     @PostMapping(path = "/recipes/{recipeId}/steps")
     @Transactional
     public ResponseEntity<Recipe> addStepToRecipe(@PathVariable UUID recipeId, @Valid @RequestBody AddStepToRecipeRequest request) {
