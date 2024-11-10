@@ -17,21 +17,16 @@ public class Step {
     @EmbeddedId
     public StepId stepId;
 
-    @ManyToOne
-    @JoinColumn(name = "recipe_id", insertable = false, updatable = false)
-    private Recipe recipe;
-
     @Getter
     @Setter
     @NotBlank(message = "Step text is required")
     private String stepText;
 
-    public Step(StepId stepId, Recipe recipe, String stepText) {
+    public Step(StepId stepId, String stepText) {
         this.stepId = stepId;
-        this.recipe = recipe;
         this.stepText = stepText;
     }
-    public static Step createStep(String stepText, Recipe recipe) {
-        return new Step(StepId.generateId(), recipe, stepText);
+    public static Step createStep(String stepText) {
+        return new Step(StepId.generateId(), stepText);
     }
 }

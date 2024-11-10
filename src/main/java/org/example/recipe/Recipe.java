@@ -58,6 +58,6 @@ public class Recipe {
 
     public void addSteps(List<String> s) {
         this.steps = new ArrayList<>();
-        s.forEach(stepText -> this.steps.add(Step.createStep(stepText, this)));
+        s.forEach(stepText -> this.steps.add(Step.createStep(stepText)));
     }
 }
