@@ -50,7 +50,7 @@ public class RecipeApi {
 
     public WebTestClient.ResponseSpec addStepToRecipe(AddStepToRecipeRequest stepRequest) {
          return Helper.newWebClient(port)
-                .post()
+                .put()
                 .uri(RECIPE_PATH + "/" + stepRequest.getRecipeId() + "/steps")
                 .bodyValue(stepRequest)
                 .exchange();

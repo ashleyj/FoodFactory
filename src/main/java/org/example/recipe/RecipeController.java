@@ -36,7 +36,8 @@ public class RecipeController {
     public ResponseEntity<Iterable<Recipe>> getRecipes() {
         return ResponseEntity.ok().body(recipeRepository.findAll());
     }
-    @PostMapping(path = "/recipes/{recipeId}/steps")
+
+    @PutMapping(path = "/recipes/{recipeId}/steps")
     @Transactional
     public ResponseEntity<RecipeResponse> addStepToRecipe(@PathVariable UUID recipeId, @Valid @RequestBody AddStepToRecipeRequest request) {
         List<String> steps = request.getSteps();
