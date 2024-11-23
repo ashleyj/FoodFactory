@@ -6,6 +6,7 @@ import org.assertj.core.util.Lists;
 import org.example.ConstraintViolationHandler;
 import org.example.recipe.dto.RecipeResponse;
 import org.example.recipe.dto.RegisterRecipeRequest;
+import org.example.recipe.dto.UpdateRecipeRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,26 @@ public class RecipeTest {
         response = recipeApi.addStepToRecipe(stepRequest);
         RecipeResponse recipeWithSteps = recipeApi.getRecipeFromResponse(response);
         itShouldReturnRecipeWithSteps(recipeWithSteps);
+    }
+
+
+    @Test
+    public void givenARecipe_whenFieldsUpdated() {
+        RegisterRecipeRequest recipeRequest = new RegisterRecipeRequest("new-recipe", "A new recipe", "a really tasty recipe");
+        WebTestClient.ResponseSpec response = recipeApi.registerItem(recipeRequest);
+        RecipeResponse newRecipe = recipeApi.getRecipeFromResponse(response);
+
+        UpdateRecipeRequest updateRequest = new UpdateRecipeRequest(newRecipe.getRecipeId(), "updated-recipe", "A new updated recipe", "a really tasty updated recipe");
+        response = recipeApi.updateRecipe(updateRequest);
+        RecipeResponse updatedRecipe = recipeApi.getRecipeFromResponse(response);
+        itShouldContainUpdatedValues(newRecipe, updatedRecipe);
+    }
+
+    private void itShouldContainUpdatedValues(RecipeResponse newRecipe, RecipeResponse updatedRecipe) {
+        assertThat(newRecipe.getRecipeId()).isEqualTo(updatedRecipe.getRecipeId());
+        assertThat(newRecipe.getTitle()).isNotEqualTo(updatedRecipe.getTitle());
+        assertThat(newRecipe.getDescription()).isNotEqualTo(updatedRecipe.getDescription());
+        assertThat(newRecipe.getName()).isNotEqualTo(updatedRecipe.getName());
     }
 
     private void itShouldReturnRecipeWithSteps(RecipeResponse recipeResponse) {

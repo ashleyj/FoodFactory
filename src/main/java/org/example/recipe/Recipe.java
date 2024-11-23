@@ -15,23 +15,23 @@ import java.util.UUID;
 public class Recipe {
 
     @Getter
-    @Setter(AccessLevel.PRIVATE)
+    @Setter
     @EmbeddedId
     @AttributeOverride(name = "id", column = @Column(name = "recipe_id"))
     public RecipeId recipeId;
 
     @Getter
-    @Setter(AccessLevel.PRIVATE)
+    @Setter
     @NotBlank(message = "Name is required")
     public String name;
 
     @Getter
-    @Setter(AccessLevel.PRIVATE)
+    @Setter
     @NotBlank(message = "Title is required")
     public String title;
 
     @Getter
-    @Setter(AccessLevel.PRIVATE)
+    @Setter
     @NotBlank(message = "Description is required")
     public String description;
 

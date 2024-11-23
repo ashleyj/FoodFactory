@@ -3,6 +3,7 @@ package org.example.recipe;
 import org.example.Helper;
 import org.example.recipe.dto.RecipeResponse;
 import org.example.recipe.dto.RegisterRecipeRequest;
+import org.example.recipe.dto.UpdateRecipeRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -53,6 +54,15 @@ public class RecipeApi {
                 .put()
                 .uri(RECIPE_PATH + "/" + stepRequest.getRecipeId() + "/steps")
                 .bodyValue(stepRequest)
+                .exchange();
+    }
+
+
+    public WebTestClient.ResponseSpec updateRecipe(UpdateRecipeRequest recipeRequest) {
+        return Helper.newWebClient(port)
+                .put()
+                .uri(RECIPE_PATH + "/" + recipeRequest.getRecipeId())
+                .bodyValue(recipeRequest)
                 .exchange();
     }
 }
