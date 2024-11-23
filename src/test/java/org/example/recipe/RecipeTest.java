@@ -55,21 +55,21 @@ public class RecipeTest {
         RegisterRecipeRequest recipeRequest = new RegisterRecipeRequest("new-recipe", "A new recipe", "a really tasty recipe");
         WebTestClient.ResponseSpec response = recipeApi.registerItem(recipeRequest);
         RecipeResponse newRecipe = recipeApi.getRecipeFromResponse(response);
-        AddStepToRecipeRequest stepRequest = new AddStepToRecipeRequest(newRecipe.getRecipeId().id, Lists.newArrayList("step text"));
+        AddStepToRecipeRequest stepRequest = new AddStepToRecipeRequest(newRecipe.getRecipeId(), Lists.newArrayList("step text"));
         response = recipeApi.addStepToRecipe(stepRequest);
         RecipeResponse recipeWithSteps = recipeApi.getRecipeFromResponse(response);
         itShouldReturnRecipeWithSteps(recipeWithSteps);
     }
 
     private void itShouldReturnRecipeWithSteps(RecipeResponse recipeResponse) {
-        assertThat(recipeResponse.getRecipeId().id).isNotEqualTo(new UUID(0, 0));
+        assertThat(recipeResponse.getRecipeId()).isNotEqualTo(new UUID(0, 0));
         assertThat((long) recipeResponse.getSteps().size()).isEqualTo(1);
         assertThat(recipeResponse.getSteps().getFirst().getStepText()).isEqualTo("step text");
     }
 
     private void itShouldAllocateAnId(RecipeResponse recipeResponse) {
-        assertThat(recipeResponse.getRecipeId().id).isNotEqualTo(new UUID(0, 0));
-        assertThat(recipeResponse.getRecipeId().id).isNotNull();
+        assertThat(recipeResponse.getRecipeId()).isNotEqualTo(new UUID(0, 0));
+        assertThat(recipeResponse.getRecipeId()).isNotNull();
     }
 
     private void itShouldRegisterNewRecipe(WebTestClient.ResponseSpec response) {
@@ -79,7 +79,7 @@ public class RecipeTest {
 
     private void itShouldShowWhereToLocateRecipe(WebTestClient.ResponseSpec response,RecipeResponse recipeResponse) {
                 response.expectHeader()
-                .location(recipeApi.uriForItemId(recipeResponse.recipeId.id).toString());
+                .location(recipeApi.uriForItemId(recipeResponse.getRecipeId()).toString());
     }
 
     @Test

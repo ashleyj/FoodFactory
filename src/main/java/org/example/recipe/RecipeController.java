@@ -1,6 +1,7 @@
 package org.example.recipe;
 
 import jakarta.validation.Valid;
+import org.example.recipe.dto.RecipeResponse;
 import org.example.recipe.step.StepRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,11 +25,11 @@ public class RecipeController {
     StepRepository stepRepository;
 
     @PostMapping("/recipes")
-    public ResponseEntity<Recipe> registerNewRecipe(@Valid @RequestBody Recipe recipeRequest) {
+    public ResponseEntity<RecipeResponse> registerNewRecipe(@Valid @RequestBody Recipe recipeRequest) {
         Recipe recipe = Recipe.createRecipe(recipeRequest.name, recipeRequest.title, recipeRequest.description);
         recipeRepository.save(recipe);
         URI newItemLocation = recipeUri(recipe.getId());
-        return ResponseEntity.created(newItemLocation).body(recipe);
+        return ResponseEntity.created(newItemLocation).body(RecipeResponse.fromRecipe(recipe));
     }
 
     @GetMapping("/recipes")
@@ -37,7 +38,7 @@ public class RecipeController {
     }
     @PostMapping(path = "/recipes/{recipeId}/steps")
     @Transactional
-    public ResponseEntity<Recipe> addStepToRecipe(@PathVariable UUID recipeId, @Valid @RequestBody AddStepToRecipeRequest request) {
+    public ResponseEntity<RecipeResponse> addStepToRecipe(@PathVariable UUID recipeId, @Valid @RequestBody AddStepToRecipeRequest request) {
         List<String> steps = request.getSteps();
         if (steps.isEmpty()) {
             System.out.println("Empty step set");
@@ -50,7 +51,7 @@ public class RecipeController {
         recipe.addSteps(steps);
         recipeRepository.save(recipe);
         URI itemLocation = recipeUri(recipe.getId());
-        return ResponseEntity.created(itemLocation).body(recipe);
+        return ResponseEntity.created(itemLocation).body(RecipeResponse.fromRecipe(recipe));
     }
 
     private URI recipeUri(UUID id) {

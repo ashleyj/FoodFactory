@@ -11,6 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor(force = true)
 @AllArgsConstructor
 public class RecipeId  implements Serializable {
+    @Getter
     public UUID id;
 
     public static RecipeId generateId() {
