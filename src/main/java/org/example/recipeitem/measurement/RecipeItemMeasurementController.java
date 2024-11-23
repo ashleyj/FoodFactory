@@ -34,7 +34,7 @@ public class RecipeItemMeasurementController {
                 recipeItemMeasurementRequest.getAbbreviatedMeasurementName());
         recipeItemMeasurementRepository.save(recipeItemMeasurement);
 
-        URI newRecipeItemMeasurementLocation = recipeIteamMeasurementUri(recipeItemMeasurement.getRecipeItemMeasurementId().getRecipe_item_measurement_d());
+        URI newRecipeItemMeasurementLocation = recipeIteamMeasurementUri(recipeItemMeasurement.getRecipeItemMeasurementId().getId());
         return ResponseEntity.created(newRecipeItemMeasurementLocation).body(recipeItemMeasurement);
     }
 

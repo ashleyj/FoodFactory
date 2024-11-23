@@ -20,7 +20,7 @@ public class ItemResponse {
     public String itemName;
 
     public UUID getId() {
-        return this.itemId.getId();
+        return this.getItemId().getId();
     }
 
 }

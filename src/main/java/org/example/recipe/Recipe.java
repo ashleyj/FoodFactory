@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.example.recipe.recipeid.RecipeId;
 import org.example.recipe.step.Step;
+import org.example.recipeitem.RecipeItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ public class Recipe {
     @Getter
     @Setter
     @EmbeddedId
-    @AttributeOverride(name = "id", column = @Column(name = "recipe_id"))
+    @AttributeOverride(name = "recipe_id", column = @Column(name = "recipe_id"))
     public RecipeId recipeId;
 
     @Getter
@@ -41,6 +42,12 @@ public class Recipe {
     @Setter(AccessLevel.PRIVATE)
     private List<Step> steps;
 
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "recipe_id", insertable = false, updatable = false)
+    @Getter
+    @Setter(AccessLevel.PRIVATE)
+    private List<RecipeItem> recipeItems;
+
     public Recipe(RecipeId recipeId, String name, String title, String description) {
         this.recipeId = recipeId;
         this.name = name;
@@ -49,7 +56,7 @@ public class Recipe {
     }
 
     public UUID getId() {
-        return recipeId.id;
+        return recipeId.getId();
     }
 
     public static Recipe createRecipe(String name, String title, String description) {
@@ -59,5 +66,9 @@ public class Recipe {
     public void addSteps(List<String> s) {
         this.steps = new ArrayList<>();
         s.forEach(stepText -> this.steps.add(Step.createStep(stepText)));
+    }
+    public void addRecipeItems(List<RecipeItem> items) {
+        this.recipeItems = new ArrayList<>();
+        items.forEach(recipeItem -> this.recipeItems.add(recipeItem));
     }
 }

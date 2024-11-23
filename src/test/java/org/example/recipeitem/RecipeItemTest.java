@@ -55,7 +55,7 @@ public class RecipeItemTest {
         ItemResponse item = itemApi.getItemFromResponse(response);
         RecipeItemMeasurementId recipeItemMeasurementId = generateRecipeItemMeasurementId();
 
-        RegisterRecipeItemRequest recipeItemRequest = new RegisterRecipeItemRequest(item.getItemId().getId(), 3, recipeItemMeasurementId.getRecipe_item_measurement_d());
+        RegisterRecipeItemRequest recipeItemRequest = new RegisterRecipeItemRequest(item.getItemId().getId(), 3, recipeItemMeasurementId.getId());
         // register recipe item, using existing item
         response = recipeItemApi.registerRecipeItem(recipeItemRequest);
         RecipeItemResponse newItem = recipeItemApi.getItemFromResponse(response);
@@ -76,7 +76,7 @@ public class RecipeItemTest {
     @Test
     public void givenAnInvalidItem_whenCreated() {
         ItemId itemId = ItemId.generateId();
-        RegisterRecipeItemRequest itemRequest = new RegisterRecipeItemRequest(itemId.getId(), 3, generateRecipeItemMeasurementId().getRecipe_item_measurement_d());
+        RegisterRecipeItemRequest itemRequest = new RegisterRecipeItemRequest(itemId.getId(), 3, generateRecipeItemMeasurementId().getId());
         WebTestClient.ResponseSpec response = recipeItemApi.registerRecipeItem(itemRequest);
         RecipeItemResponse newItem = recipeItemApi.getItemFromResponse(response);
         itShouldReturnAnInvalidItemError(response);

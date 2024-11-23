@@ -1,12 +1,12 @@
 package org.example.recipeitem.measurement;
 
-import jakarta.persistence.AttributeOverride;
-import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.example.recipeitem.measurement.recipeitemmeasurementid.RecipeItemMeasurementId;
+
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,6 +37,10 @@ public class RecipeItemMeasurement {
     @Setter(AccessLevel.PRIVATE)
     @NotBlank(message = "Must contain a measurement name")
     private String measurementName;
+
+    public UUID getId() {
+        return this.getRecipeItemMeasurementId().getId();
+    }
 
     public static RecipeItemMeasurement CreateRecipeItemMeasurement(String name,
                                                                     double conversionRatio,

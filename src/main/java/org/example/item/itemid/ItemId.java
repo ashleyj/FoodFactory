@@ -12,16 +12,11 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ItemId  implements Serializable {
 
-    @AttributeOverride(name = "id", column = @Column(name = "item_id"))
     @Getter
     @Setter
-    public UUID item_id;
+    public UUID id;
 
     public static ItemId generateId() {
         return new ItemId(UUID.randomUUID());
-    }
-
-    public UUID getId() {
-        return item_id;
     }
 }

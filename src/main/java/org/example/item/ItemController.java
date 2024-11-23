@@ -20,7 +20,7 @@ public class ItemController {
     public ResponseEntity<Item> registerNewItem(@RequestBody Item itemRequest) {
         Item item = Item.craeteItem(itemRequest.getItemName());
         itemRepository.save(item);
-        URI newItemLocation = itemUri(item.getId());
+        URI newItemLocation = itemUri(item.getItemId().getId());
         return ResponseEntity.created(newItemLocation).body(item);
     }
 

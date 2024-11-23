@@ -16,7 +16,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.UUID;
 
@@ -35,10 +34,6 @@ public class RecipeTest {
     RecipeApi recipeApi;
 
     private MockMvc mvc;
-
-    @Autowired
-    private WebApplicationContext context;
-
 
     @Test
     public void givenARecipe_whenCreated() {

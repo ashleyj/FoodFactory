@@ -16,7 +16,7 @@ import java.util.UUID;
 public class RecipeItemMeasurementId {
     @Getter
     @Setter
-    public UUID recipe_item_measurement_d;
+    public UUID id;
 
     public static RecipeItemMeasurementId generateId() {
         return new RecipeItemMeasurementId(UUID.randomUUID());

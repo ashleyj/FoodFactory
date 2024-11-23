@@ -24,10 +24,6 @@ public class Item {
     @Setter(AccessLevel.PRIVATE)
     public String itemName;
 
-    public UUID getId() {
-        return itemId.getId();
-    }
-
     public static Item craeteItem(String name) {
         return new Item(ItemId.generateId(), name);
     }

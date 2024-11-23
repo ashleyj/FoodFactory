@@ -3,26 +3,23 @@ package org.example.recipeitem;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.*;
-import org.example.item.Item;
 import org.example.item.itemid.ItemId;
 import org.example.recipeitem.measurement.recipeitemmeasurementid.RecipeItemMeasurementId;
 import org.example.recipeitem.recipeitemid.RecipeItemId;
-
-import java.util.UUID;
 
 @NoArgsConstructor
 @Entity
 public class RecipeItem {
 
     @Getter
-    @Setter(AccessLevel.PRIVATE)
+    @Setter
     @EmbeddedId
-    @AttributeOverride(name = "id", column = @Column(name = "recipe_item_id"))
     public RecipeItemId recipeItemId;
 
     @Getter
     @Setter(AccessLevel.PRIVATE)
     @Embedded
+    @AttributeOverride(name = "id", column = @Column(name = "item_id"))
     private ItemId itemId;
 
     @Getter
@@ -36,6 +33,7 @@ public class RecipeItem {
     @Getter
     @Setter(AccessLevel.PRIVATE)
     @Embedded
+    @AttributeOverride(name = "id", column = @Column(name = "recipe_item_measurement_id"))
     public RecipeItemMeasurementId recipeItemMeasurementId;
 
     public RecipeItem(RecipeItemId recipeItemId, ItemId itemId, int count, RecipeItemMeasurementId recipeItemMeasurementId) {
@@ -46,7 +44,7 @@ public class RecipeItem {
 
     }
 
-    public static RecipeItem create(UUID itemId, int count, UUID recipeItemMeasurementId) {
-        return new RecipeItem(RecipeItemId.generateId(), new ItemId(itemId), count, new RecipeItemMeasurementId(recipeItemMeasurementId));
+    public static RecipeItem create(ItemId itemId, int count, RecipeItemMeasurementId recipeItemMeasurementId) {
+        return new RecipeItem(RecipeItemId.generateId(), itemId, count, recipeItemMeasurementId);
     }
 }

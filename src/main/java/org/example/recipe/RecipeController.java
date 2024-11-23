@@ -3,7 +3,8 @@ package org.example.recipe;
 import jakarta.validation.Valid;
 import org.example.recipe.dto.RecipeResponse;
 import org.example.recipe.dto.UpdateRecipeRequest;
-import org.example.recipe.step.StepRepository;
+import org.example.recipe.recipeid.RecipeId;
+import org.example.recipeitem.RecipeItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -24,7 +26,7 @@ public class RecipeController {
     RecipeRepository recipeRepository;
 
     @Autowired
-    StepRepository stepRepository;
+    RecipeItemService recipeItemService;
 
     @PostMapping("/recipes")
     public ResponseEntity<RecipeResponse> registerNewRecipe(@Valid @RequestBody Recipe recipeRequest) {
@@ -47,14 +49,31 @@ public class RecipeController {
             System.out.println("Empty step set");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Empty step set");
         }
-        Recipe recipe = recipeRepository.findByRecipeIdId(recipeId);
-        if (recipe == null) {
+        Optional<Recipe> recipe = recipeRepository.findById(new RecipeId(recipeId));
+        if (recipe.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Recipe not found");
         }
-        recipe.addSteps(steps);
-        recipeRepository.save(recipe);
-        URI itemLocation = recipeUri(recipe.getId());
-        return ResponseEntity.created(itemLocation).body(RecipeResponse.fromRecipe(recipe));
+        recipe.get().addSteps(steps);
+        recipeRepository.save(recipe.get());
+        URI itemLocation = recipeUri(recipe.get().getId());
+        return ResponseEntity.created(itemLocation).body(RecipeResponse.fromRecipe(recipe.orElse(null)));
+    }
+
+    @PutMapping(path = "/recipes/{recipeId}/recipeitems")
+    @Transactional
+    public ResponseEntity<RecipeResponse> addRecipeItemsToRecipe(@PathVariable UUID recipeId, @Valid @RequestBody AddRecipeItemsToRecipeRequest request) {
+        List<RecipeItemDto> recipeItems = request.getRecipeItems();
+        if (recipeItems.isEmpty()) {
+            System.out.println("Empty recipeItem list");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Empty recipeItem list");
+        }
+        Recipe savedRecipe;
+        try {
+           savedRecipe = recipeItemService.addRecipeItemsToRecipe(recipeId, recipeItems);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error adding recipe items to recipe: " + e.getMessage());
+        }
+        return ResponseEntity.ok().body(RecipeResponse.fromRecipe(savedRecipe));
     }
 
 
@@ -66,16 +85,16 @@ public class RecipeController {
         if (ObjectUtils.isEmpty(request.getName()) || ObjectUtils.isEmpty(request.getTitle()) || ObjectUtils.isEmpty(request.getDescription()) ) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request params invalid");
         }
-        Recipe recipe = recipeRepository.findByRecipeIdId(recipeId);
-        if (recipe == null) {
+        Optional<Recipe> recipe = recipeRepository.findById(new RecipeId(recipeId));
+        if (recipe.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Recipe not found");
         }
-        recipe.setDescription(request.getDescription());
-        recipe.setName(request.getName());
-        recipe.setTitle(request.getTitle());
+        recipe.get().setDescription(request.getDescription());
+        recipe.get().setName(request.getName());
+        recipe.get().setTitle(request.getTitle());
 
-        recipeRepository.save(recipe);
-        return ResponseEntity.ok().body(RecipeResponse.fromRecipe(recipe));
+        recipeRepository.save(recipe.get());
+        return ResponseEntity.ok().body(RecipeResponse.fromRecipe(recipe.orElse(null)));
     }
 
     private URI recipeUri(UUID id) {

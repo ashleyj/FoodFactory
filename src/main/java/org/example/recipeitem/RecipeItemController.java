@@ -41,7 +41,7 @@ public class RecipeItemController {
         if (recipeItemMeasurement.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
-        RecipeItem recipeItem = RecipeItem.create(item.get().itemId.getId(), recipeItemRequest.getCount(), recipeItemMeasurement.get().getRecipeItemMeasurementId().getRecipe_item_measurement_d());
+        RecipeItem recipeItem = RecipeItem.create(item.get().getItemId(), recipeItemRequest.getCount(), recipeItemMeasurement.get().getRecipeItemMeasurementId());
         recipeItemRepository.save(recipeItem);
         URI newRecipeItemLocation = itemUri(recipeItem.getRecipeItemId().getId());
         return ResponseEntity.created(newRecipeItemLocation).body(recipeItem);
