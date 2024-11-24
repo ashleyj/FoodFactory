@@ -7,6 +7,7 @@ import org.example.ConstraintViolationHandler;
 import org.example.recipe.dto.RecipeResponse;
 import org.example.recipe.dto.RegisterRecipeRequest;
 import org.example.recipe.dto.UpdateRecipeRequest;
+import org.example.recipe.recipeid.RecipeId;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.example.recipe.RecipeApi.RECIPE_PATH;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
@@ -70,6 +72,45 @@ public class RecipeTest {
         itShouldContainUpdatedValues(newRecipe, updatedRecipe);
     }
 
+    @Test
+    public void givenARecipe_whenFieldsUpdatedWithInvalidContent() throws Exception {
+        RegisterRecipeRequest recipeRequest = new RegisterRecipeRequest("new-recipe", "A new recipe", "a really tasty recipe");
+        WebTestClient.ResponseSpec response = recipeApi.registerItem(recipeRequest);
+        RecipeResponse newRecipe = recipeApi.getRecipeFromResponse(response);
+
+        UpdateRecipeRequest updateRequest = new UpdateRecipeRequest(newRecipe.getRecipeId(), null, "A new updated recipe", "a really tasty updated recipe");
+        response = recipeApi.updateRecipe(updateRequest);
+        itShouldReturnBadRequest(response);
+
+        updateRequest = new UpdateRecipeRequest(newRecipe.getRecipeId(), "new name", null, "a really tasty updated recipe");
+        response = recipeApi.updateRecipe(updateRequest);
+        itShouldReturnBadRequest(response);
+
+        updateRequest = new UpdateRecipeRequest(newRecipe.getRecipeId(), "new name", "new title", null);
+        response = recipeApi.updateRecipe(updateRequest);
+        itShouldReturnBadRequest(response);
+        UpdateRecipeRequest requestWithNoName = new UpdateRecipeRequest(newRecipe.getRecipeId(),"", "title", "description");
+        UpdateRecipeRequest requestWithNoTitle = new UpdateRecipeRequest(newRecipe.getRecipeId(), "name", "", "description");
+        UpdateRecipeRequest requestWithNoDescription = new UpdateRecipeRequest(newRecipe.getRecipeId(), "name", "title", "");
+        updateItemPostRequest(newRecipe.getRecipeId(), requestWithNoName, "Name");
+        updateItemPostRequest(newRecipe.getRecipeId(), requestWithNoTitle, "Title");
+        updateItemPostRequest(newRecipe.getRecipeId(), requestWithNoDescription, "Description");
+    }
+
+    private void itShouldReturnBadRequest(WebTestClient.ResponseSpec response) {
+        response.expectStatus().isBadRequest();
+    }
+
+    private void updateItemPostRequest(UUID recipeId, UpdateRecipeRequest request, String missingField) throws Exception {
+        mvc = standaloneSetup(new RecipeController()).setControllerAdvice(new ConstraintViolationHandler()).build();
+        mvc.perform(put(RECIPE_PATH + "/" + recipeId).
+                        contentType(APPLICATION_JSON)
+                        .content(asJSON(request)))
+                .andExpect(status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value(missingField + " is required"));
+
+    }
+
     private void itShouldContainUpdatedValues(RecipeResponse newRecipe, RecipeResponse updatedRecipe) {
         assertThat(newRecipe.getRecipeId()).isEqualTo(updatedRecipe.getRecipeId());
         assertThat(newRecipe.getTitle()).isNotEqualTo(updatedRecipe.getTitle());
@@ -104,12 +145,12 @@ public class RecipeTest {
         RegisterRecipeRequest requestWithNoName = new RegisterRecipeRequest("", "title", "description");
         RegisterRecipeRequest requestWithNoTitle = new RegisterRecipeRequest("name", "", "description");
         RegisterRecipeRequest requestWithNoDescription = new RegisterRecipeRequest("name", "title", "");
-        postRequest(requestWithNoName, "Name");
-        postRequest(requestWithNoTitle, "Title");
-        postRequest(requestWithNoDescription, "Description");
+        newItemPostRequest(requestWithNoName, "Name");
+        newItemPostRequest(requestWithNoTitle, "Title");
+        newItemPostRequest(requestWithNoDescription, "Description");
     }
 
-    private void postRequest(RegisterRecipeRequest request, String missingField) throws Exception {
+    private void newItemPostRequest(RegisterRecipeRequest request, String missingField) throws Exception {
         mvc = standaloneSetup(new RecipeController()).setControllerAdvice(new ConstraintViolationHandler()).build();
         mvc.perform(post(RECIPE_PATH).
                         contentType(APPLICATION_JSON)
@@ -119,7 +160,7 @@ public class RecipeTest {
 
     }
 
-    private String asJSON(RegisterRecipeRequest recipeRequest) throws JsonProcessingException {
+    private String asJSON(Object recipeRequest) throws JsonProcessingException {
        return new ObjectMapper().writeValueAsString(recipeRequest);
     }
 
