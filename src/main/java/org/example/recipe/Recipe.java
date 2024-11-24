@@ -23,17 +23,14 @@ public class Recipe {
 
     @Getter
     @Setter
-    @NotBlank(message = "Name is required")
     public String name;
 
     @Getter
     @Setter
-    @NotBlank(message = "Title is required")
     public String title;
 
     @Getter
     @Setter
-    @NotBlank(message = "Description is required")
     public String description;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)

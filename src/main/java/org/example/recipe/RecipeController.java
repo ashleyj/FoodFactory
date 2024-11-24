@@ -2,6 +2,7 @@ package org.example.recipe;
 
 import jakarta.validation.Valid;
 import org.example.recipe.dto.RecipeResponse;
+import org.example.recipe.dto.RegisterRecipeRequest;
 import org.example.recipe.dto.UpdateRecipeRequest;
 import org.example.recipe.recipeid.RecipeId;
 import org.example.recipeitem.RecipeItemService;
@@ -29,8 +30,8 @@ public class RecipeController {
     RecipeItemService recipeItemService;
 
     @PostMapping("/recipes")
-    public ResponseEntity<RecipeResponse> registerNewRecipe(@Valid @RequestBody Recipe recipeRequest) {
-        Recipe recipe = Recipe.createRecipe(recipeRequest.name, recipeRequest.title, recipeRequest.description);
+    public ResponseEntity<RecipeResponse> registerNewRecipe(@Valid @RequestBody RegisterRecipeRequest recipeRequest) {
+        Recipe recipe = Recipe.createRecipe(recipeRequest.getName(), recipeRequest.getTitle(), recipeRequest.getDescription());
         recipeRepository.save(recipe);
         URI newItemLocation = recipeUri(recipe.getId());
         return ResponseEntity.created(newItemLocation).body(RecipeResponse.fromRecipe(recipe));
