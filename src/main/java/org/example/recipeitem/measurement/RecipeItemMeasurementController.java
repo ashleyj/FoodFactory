@@ -1,5 +1,6 @@
 package org.example.recipeitem.measurement;
 
+import org.example.recipeitem.measurement.dto.RegisterRecipeItemMeasurementRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class RecipeItemMeasurementController {
     public RecipeItemMeasurementRepository recipeItemMeasurementRepository;
 
     @PostMapping("/recipeitemmeasurements")
-    public ResponseEntity<RecipeItemMeasurement> registerNewRecipeItem(@RequestBody RecipeItemMeasurement recipeItemMeasurementRequest) {
+    public ResponseEntity<RecipeItemMeasurement> registerNewRecipeItem(@RequestBody RegisterRecipeItemMeasurementRequest recipeItemMeasurementRequest) {
 
         List<RecipeItemMeasurement> recipeItemMeasurementList = recipeItemMeasurementRepository.findByName(recipeItemMeasurementRequest.getName());
         if (!recipeItemMeasurementList.isEmpty()) {
