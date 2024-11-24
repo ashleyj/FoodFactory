@@ -1,5 +1,6 @@
 package org.example.item;
 
+import org.example.item.dto.RegisterItemRequest;
 import org.example.item.itemid.ItemId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class ItemController {
     ItemRepository itemRepository;
 
     @PostMapping("/items")
-    public ResponseEntity<Item> registerNewItem(@RequestBody Item itemRequest) {
+    public ResponseEntity<Item> registerNewItem(@RequestBody RegisterItemRequest itemRequest) {
         Item item = Item.craeteItem(itemRequest.getItemName());
         itemRepository.save(item);
         URI newItemLocation = itemUri(item.getItemId().getId());
